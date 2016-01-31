@@ -3,4 +3,4 @@
 ./configure --prefix=$PREFIX
 
 make
-make installl
+make install
