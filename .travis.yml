@@ -1,9 +1,3 @@
-#
-# This is free software; you can redistribute and/or modify it under
-# the terms of the GNU Lesser General Public Licence as published
-# by the Free Software Foundation. 
-# See the COPYING file for more information.
-#
 sudo: false
 
 language: cpp
@@ -15,15 +9,23 @@ os:
 env:
   global:
     - BINSTAR_USER: jlaura
+  matrix: 
+    - PYTHON_VERSION: 2.7
 
 compiler:
     - clang
 
-matrix:
-  fast_finish: true
-  allow_failures:
+install:
+  # straight from the menpo team
+  - if [["$TRAVIS_OS_NAME" == "osx"]]; then
+      curl -o condaci.py https://raw.githubusercontent.com/menpo/condaci/v0.4.8/condaci.py;
+    else
+      wget https://raw.githubusercontent.com/menpo/condaci/v0.4.8/condaci.py -O condaci.py;
+    fi
+   - python condaci.py setup
 
-script: build.sh
+script:
+  - ~/miniconda/bin/python condaci.py build ./conda
 
 notifications:
     email:
